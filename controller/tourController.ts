@@ -3,6 +3,27 @@ import {Request,Response} from 'express';
 const fs = require('fs');
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 
+exports.checkID = (_req: any, _res: any, next: () => void, val: any) => {
+  if(_req.params.id * 1 > tours.length){
+    return _res.status(404).json({
+      status:'fail',
+      message:'Invalid ID'
+    })
+  }
+  next();
+}
+
+exports.checkBody = ((_req:any,_res:any,next:()=>void,val:any) => {
+  if(!_req.body.name || !_req.body.price){
+    return _res.status(404).json({
+      status:'fail',
+      message:'Invalid ID'
+    })
+  }
+  next()
+})
+
+
  exports.getAllTours = (req: { Request:Request,requestTime: any },res:Response) => {
   res.status(200).json({
     requestedAt:req.requestTime,
@@ -63,13 +84,7 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-si
   })
 }
 
- exports.deleteTour = (req: { Request:Request,params: { id: number; } },res:Response )=> {
-  if(req.params.id * 1 > tours.length){
-    return res.status(404).json({
-      status:'fail',
-      message:'Invalid ID'
-    })
-  }
+ exports.deleteTour = (req:Request,res:Response )=> {
   res.status(200).json({
     status:"success",
     data:null
