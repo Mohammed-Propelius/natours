@@ -1,5 +1,5 @@
-const express = require('express')
-const tourRoute = express.Router()
+const expressTour = require('express')
+const tourRoute = expressTour.Router()
 
 // --> Another method to do the fetch request
 // const {getAllTours,createTour,getTours,patchingTour,deleteTour} = require('../controller/tourController')

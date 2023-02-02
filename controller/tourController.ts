@@ -1,7 +1,9 @@
+import {Request,Response} from 'express';
+
 const fs = require('fs');
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 
- exports.getAllTours = (req,res) => {
+ exports.getAllTours = (req: { Request:Request,requestTime: any },res:Response) => {
   res.status(200).json({
     requestedAt:req.requestTime,
     status:"sucess",
@@ -14,9 +16,9 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-si
 
 
 
- exports.getTours = (req,res) => {
-  const id = req.params.id * 1;
-  const tour = tours.find(index => index.id === id)
+ exports.getTours = (req: { Request:Request,params: { id: number; } },res:Response) => {
+   const id = 1 * req.params.id;
+  const tour = tours.find((index: { id: number }) => index.id === id)
   if(id > tours.length){
     res.status(404).json({
       "status":"fail",
@@ -32,11 +34,11 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-si
   })
 }
 
- exports.createTour = (req,res) => {
+ exports.createTour = (req:Request,res:Response) => {
   const newId = tours[tours.length - 1].id+1
   const newTour = Object.assign({id:newId},req.body)
   tours.push(newTour)
-  fs.writeFile(`${__dirname}/../dev-data/data/tours-simple.json`,JSON.stringify(tours),err => {
+  fs.writeFile(`${__dirname}/../dev-data/data/tours-simple.json`,JSON.stringify(tours), () => {
     res.status(201).json({
       status:"sucess",
       data:{
@@ -46,7 +48,7 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-si
   })
 }
 
- exports.patchingTour  = (req,res) => {
+ exports.patchingTour  = (req: { Request:Request,params: { id: number; } },res:Response) => {
   if(req.params.id * 1 > tours.length){
     return res.status(404).json({
       status:'fail',
@@ -61,7 +63,7 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-si
   })
 }
 
- exports.deleteTour = (req,res )=> {
+ exports.deleteTour = (req: { Request:Request,params: { id: number; } },res:Response )=> {
   if(req.params.id * 1 > tours.length){
     return res.status(404).json({
       status:'fail',
@@ -73,3 +75,5 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-si
     data:null
   })
 }
+
+
