@@ -1,14 +1,17 @@
-const expressTour = require('express')
-const tourRoute = expressTour.Router()
-const tourController = require('./../controller/tourController')
+const expressRoutes = require('express');
+const tourController = require('../controller/tourController');
+const {
+  getAllTours,
+  createTour,
+  getTours,
+  updateTour,
+  deleteTour,
+} = require('../controller/tourController');
+const tourRouter = expressRoutes.Router();
 
+tourRouter.route('/:id', tourController.checkID);
 
+tourRouter.route('/').get(getAllTours).post(createTour);
+tourRouter.route('/:id').get(getTours).patch(updateTour).delete(deleteTour);
 
-tourRoute.param('id',tourController.checkID)
-// --> Another method to do the fetch request
-// const {getAllTours,createTour,getTours,patchingTour,deleteTour} = require('../controller/tourController')
-const toursData = require('../controller/tourController')
-
-tourRoute.route('/').get(toursData.getAllTours).post(toursData.checkBody,toursData.createTour)
-tourRoute.route('/:id').get(toursData.getTours).patch(toursData.patchingTour).delete(toursData.deleteTour)
-module.exports = tourRoute
+module.exports = tourRouter;

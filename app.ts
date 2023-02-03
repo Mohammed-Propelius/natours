@@ -1,10 +1,9 @@
-const express = require('express')
-const expressApp = express()
+const express = require('express');
+const expressApp = express.Router();
 
-const tourRoutes  = require('./routes/tourRoutes')
-const userRoute = require('./routes/userRoutes')
+const tourRouters = require('./routes/tourRoutes');
+const userRoute = require('./routes/userRoutes');
+expressApp.use('/api/v1/tours', tourRouters);
+expressApp.use('/api/v1/users', userRoute);
 
-expressApp.use('/api/v1/tours',tourRoutes)
-expressApp.use('/api/v1/users',userRoute)
-
-module.exports = expressApp
+module.exports = expressApp;
