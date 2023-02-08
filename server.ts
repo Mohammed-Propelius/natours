@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const indexRoute = require('./app');
 const expressServer = require('express');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 dotenv.config({ path: './.env' });
 
 const app = expressServer();
+const indexRoute = require('./app');
 const DB =
   (process.env.DATABASE as string) &&
   (process.env.DATABASE as string).replace(
